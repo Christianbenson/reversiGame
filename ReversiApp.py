@@ -119,7 +119,6 @@ class App:
     def move(self, row, column, player):
         #make a move, select row and column
         tiles_to_flip = move_is_legal(self.playing_field, row, column, player)
-        print("tiles to flip:", tiles_to_flip)
         if (len(tiles_to_flip) > 0):
             for x, y in tiles_to_flip:
                 self.playing_field[x][y] = player
@@ -129,12 +128,10 @@ class App:
             self.update_board
             self.swap_turn()
         else:
-            print('illegal move!')
+            print('illegal move!' + 
+                  "try playing one of these moves instead: " + 
+                  able_to_make_legal_move(self.playing_field, self.active_player))
         self.is_game_over()
-            
-        legal_moves = able_to_make_legal_move(self.playing_field, self.active_player)
-        print(legal_moves)
-        
 
     def swap_turn(self):
         self.update_board()
@@ -150,7 +147,6 @@ class App:
         self.update_board()
             
     def is_game_over(self):
-        print(self.playing_field)
         if(len(able_to_make_legal_move(self.playing_field, 1)) == 0 and len(able_to_make_legal_move(self.playing_field, 2)) == 0):        
             self.popup.game_over_popup(self.master, player_score(self.playing_field, 1), player_score(self.playing_field, 2))
             self.master.wait_window(self.popup.top)
@@ -158,7 +154,6 @@ class App:
         return
 
     def is_player_human(self, player):
-        print('human player is checked', player)
         if(player == 1):
             return self.popup.player_one_is_human
         elif(player == 2):
