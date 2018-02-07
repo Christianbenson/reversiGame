@@ -47,13 +47,17 @@ class PopupWindow:
     def names_entered(self):
         if(self.var_one.get() == 1):
             self.player_one = "AI"
+            self.player_one_is_human = False
         else:
             self.player_one = self.first.get()
+            self.player_one_is_human = True
             
         if(self.var_two.get() == 1):
             self.player_two = "AI"
+            self.player_two_is_human = False
         else:
             self.player_two = self.second.get()
+            self.player_two_is_human = True
         
         self.top.destroy()
             

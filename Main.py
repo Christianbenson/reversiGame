@@ -8,12 +8,6 @@ from numpy import *
 from ReversiApp import *
         
 def main():
-    #setup playing field
-    #Open window
-    #draw reversi board
-    #Load options
-    #check if game is finished
-    #iterate
     w, h = 8, 8
     playing_field = [[0 for x in range(w)] for y in range(h)]
     playing_field[3][4] = 1
@@ -28,3 +22,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    
