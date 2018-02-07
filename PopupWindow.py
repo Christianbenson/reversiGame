@@ -20,37 +20,58 @@ class PopupWindow:
             
     def names_popup(self, parent):
         top = self.top = Toplevel(parent)
+        self.var_one = IntVar()
+        self.var_two = IntVar()
         
         Label(top, text="Choose name for player 1:").pack()
         self.first = Entry(top)
         self.first.pack(padx=5)
-        self.cb_one = Checkbutton(top, text="let player 1 be AI")
+        self.cb_one = Checkbutton(top, 
+                                  text="let player 1 be AI", 
+                                  variable=self.var_one,
+                                  )
         self.cb_one.pack(padx=5)
         
         Label(top, text="Choose name for player 2:").pack()
         self.second = Entry(top)
         self.second.pack(padx=5)
-        self.cb_two = Checkbutton(top, text="let player 2 be AI")
+        self.cb_two = Checkbutton(top, 
+                                  text="let player 2 be AI", 
+                                  variable=self.var_two,
+                                  )
         self.cb_two.pack(padx=5)
         
         b = Button(top, text="ENTER", command=self.names_entered)
         b.pack(pady=10)
+     
+    def names_entered(self):
+        if(self.var_one.get() == 1):
+            self.player_one = "AI"
+        else:
+            self.player_one = self.first.get()
+            
+        if(self.var_two.get() == 1):
+            self.player_two = "AI"
+        else:
+            self.player_two = self.second.get()
         
+        self.top.destroy()
+            
     def game_over_popup(self, parent, player_one_score, player_two_score):
         
         top = self.top = Toplevel(parent)
         Label(top, 
               text="Game over! Final score: \n" + 
               self.player_one + 
-              ": " + 
+              ", white: " + 
               str(player_one_score) + 
               "\n" + 
               self.player_two + 
-              ": " + 
+              ", black: " + 
               str(player_two_score) + 
               "\n" + 
               self.winners_name(player_one_score, player_two_score) +
-              " is the winner!").pack()
+              " wins!").pack()
 
         b = Button(top, text="gg, ez", command=self.top.destroy)
         b.pack(pady=10)
@@ -61,8 +82,4 @@ class PopupWindow:
         else:
             return self.player_two
         
-    def names_entered(self):
-        self.player_one = self.first.get()
-        self.player_two = self.second.get()
-        self.top.destroy()
-        
+   
