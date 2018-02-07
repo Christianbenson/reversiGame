@@ -19,9 +19,9 @@ class App:
         self.player_one = self.popup.player_one
         self.player_two = self.popup.player_two
         if(not self.is_player_human(1)):
-            self.ai_one = AdversialSearch.AdversialSearch(self, playing_field, 1)
+            self.ai_one = AdversialSearch.AdversialSearch(self, playing_field, 1, 1)
         if(not self.is_player_human(2)):
-            self.ai_two = AdversialSearch.AdversialSearch(self, playing_field, 2)
+            self.ai_two = AdversialSearch.AdversialSearch(self, playing_field, 2, 1)
             
         self.frame = Frame(self.master)
         self.frame.pack()
@@ -119,7 +119,8 @@ class App:
     def move(self, row, column, player):
         #make a move, select row and column
         tiles_to_flip = move_is_legal(self.playing_field, row, column, player)
-        if len(tiles_to_flip) != 0:
+        print("tiles to flip:", tiles_to_flip)
+        if (len(tiles_to_flip) > 0):
             for x, y in tiles_to_flip:
                 self.playing_field[x][y] = player
             self.playing_field[row][column] = player
@@ -149,6 +150,7 @@ class App:
         self.update_board()
             
     def is_game_over(self):
+        print(self.playing_field)
         if(len(able_to_make_legal_move(self.playing_field, 1)) == 0 and len(able_to_make_legal_move(self.playing_field, 2)) == 0):        
             self.popup.game_over_popup(self.master, player_score(self.playing_field, 1), player_score(self.playing_field, 2))
             self.master.wait_window(self.popup.top)
@@ -156,6 +158,7 @@ class App:
         return
 
     def is_player_human(self, player):
+        print('human player is checked', player)
         if(player == 1):
             return self.popup.player_one_is_human
         elif(player == 2):

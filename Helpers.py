@@ -64,3 +64,13 @@ def move_is_legal(playing_field, row, column, player):
                             break
                         tiles_to_flip.append([x,y])
         return tiles_to_flip
+
+def letter_to_number(letter):
+        try:
+            val = int(letter) - 1
+            return val
+        except ValueError:
+            return ord(letter) - 65
+        
+def terminal_state(playing_field, player, other_player):
+    return (not able_to_make_legal_move(playing_field, player) and not able_to_make_legal_move(playing_field, other_player))
