@@ -7,21 +7,29 @@ Created on Wed Feb  7 16:43:37 2018
 from PopupWindow import *
 from Helpers import *
 import AdversialSearch
-import time
 
 class App:
     
     def __init__(self, master, playing_field):
-        
         self.master = master
         self.popup = PopupWindow(self.master)
         self.master.wait_window(self.popup.top)
         self.player_one = self.popup.player_one
         self.player_two = self.popup.player_two
+       
+        #Setup ai-players
         if(not self.is_player_human(1)):
-            self.ai_one = AdversialSearch.AdversialSearch(self, playing_field, 1, 1)
+            if(len(self.popup.time_one) == 0):
+                self.ai_one_time = 0.9
+            else:
+                self.ai_one_time = float(self.popup.time_one) * 0.9
+            self.ai_one = AdversialSearch.AdversialSearch(self, playing_field, 1, self.ai_one_time)
         if(not self.is_player_human(2)):
-            self.ai_two = AdversialSearch.AdversialSearch(self, playing_field, 2, 1)
+            if(len(self.popup.time_two) == 0):
+                self.ai_two_time = 0.9
+            else:
+                self.ai_two_time = float(self.popup.time_two) * 0.9
+            self.ai_two = AdversialSearch.AdversialSearch(self, playing_field, 2, self.ai_two_time)
             
         self.frame = Frame(self.master)
         self.frame.pack()
@@ -128,13 +136,18 @@ class App:
             self.update_board
             self.swap_turn()
         else:
-            print('illegal move!' + 
-                  "try playing one of these moves instead: " + 
-                  able_to_make_legal_move(self.playing_field, self.active_player))
+            allowed_moves = able_to_make_legal_move(self.playing_field, self.active_player)
+            if(len(allowed_moves > 0)):
+                print('illegal move!' + 
+                      "try playing one of these moves instead: ", 
+                      able_to_make_legal_move(self.playing_field, self.active_player))
+            else:
+                print("No possible moves, forfeit your turn by pressing the button to continue the game")
         self.is_game_over()
 
     def swap_turn(self):
         self.update_board()
+        self.is_game_over()
         if self.active_player == 1:
             self.active_player = 2
             if(not self.is_player_human(2)):
@@ -143,7 +156,6 @@ class App:
             self.active_player = 1
             if(not self.is_player_human(1)):
                 self.ai_one.make_a_move(self.playing_field)     
-        
         self.update_board()
             
     def is_game_over(self):

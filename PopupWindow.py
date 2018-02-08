@@ -31,6 +31,9 @@ class PopupWindow:
                                   variable=self.var_one,
                                   )
         self.cb_one.pack(padx=5)
+        Label(top, text="Allowed time for AI to plan its move in seconds (default is 1): ").pack()
+        self.ai_one_time = Entry(top)
+        self.ai_one_time.pack(padx=5)
         
         Label(top, text="Choose name for player 2:").pack()
         self.second = Entry(top)
@@ -40,6 +43,9 @@ class PopupWindow:
                                   variable=self.var_two,
                                   )
         self.cb_two.pack(padx=5)
+        Label(top, text="Allowed time for AI to plan its move in seconds (default is 1): ").pack()
+        self.ai_two_time = Entry(top)
+        self.ai_two_time.pack(padx=5)
         
         b = Button(top, text="ENTER", command=self.names_entered)
         b.pack(pady=10)
@@ -48,6 +54,7 @@ class PopupWindow:
         if(self.var_one.get() == 1):
             self.player_one = "AI"
             self.player_one_is_human = False
+            self.time_one = self.ai_one_time.get()
         else:
             self.player_one = self.first.get()
             self.player_one_is_human = True
@@ -55,6 +62,7 @@ class PopupWindow:
         if(self.var_two.get() == 1):
             self.player_two = "AI"
             self.player_two_is_human = False
+            self.time_two = self.ai_two_time.get()
         else:
             self.player_two = self.second.get()
             self.player_two_is_human = True
@@ -77,7 +85,7 @@ class PopupWindow:
               self.winners_name(player_one_score, player_two_score) +
               " wins!").pack()
 
-        b = Button(top, text="gg, ez", command=self.top.destroy)
+        b = Button(top, text="Good game! Press me to exit application", command=self.top.destroy)
         b.pack(pady=10)
     
     def winners_name(self, player_one_score, player_two_score):
